@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galerie de Artă | Paul Cristian Ioniță</title>
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/public/favicon/site.webmanifest">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/public/css/styles.css">
+    
+
+</head>
+
+<body>
+
+    <header class="primary-header flex">
+
+        <div class="navbar-signature">
+            <img src="/public/images/signature.svg"  alt="semnatura">
+        </div>
+
+        <button class="mobile-nav-toggle" aria-controls="navbar" aria-expanded="false">
+            MENIU
+        </button>
+
+        
+
+        <nav>
+            <ul id="navbar" class="navbar flex" data-visible="false" >
+                <li>    
+                    <a href="/views/index.html" class="nav-link active home-icon"> ACASĂ </a>
+                </li>
+                <li>
+                    <a href="/views/galerie.html" class="nav-link active gallery-icon"> GALERIE </a>
+                </li>
+                <li>
+                    <a href="/views/contact.html" class="nav-link active contact-icon"> CONTACT </a>    
+                </li>
+            </ul>       
+        </nav>
+    </header>
+    
+
+    <main id="main">
+        <!-- ------------------------------------------------------------------------------------------- -->
+        <!--                                         LANDING                                             -->
+        <!-- ------------------------------------------------------------------------------------------- -->
+
+        <section id="landing">
+            <div class="main-content">
+                <div class="image-container grid">
+                    <a href="/views/galerie.html" class="gallery-link">
+                        <img src="/public/images/poza-profil.jpg" alt="PaulCristianIonita" class="profile-picture" decoding="async">
+                    </a>
+                </div>
+                
+                <button class="main-button"> 
+                    <a href="/views/galerie.html" class="idk">GALERIE</a>
+                </button>
+                <h1 class="name"> Paul Cristian Ioniță </h1>
+            </div>
+        </section>
+
+
+    </main>
+
+
+
+
+    <script src="/public/js/nav.js"></script>
+
+</body>
+</html>

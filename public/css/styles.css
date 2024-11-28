@@ -1,0 +1,415 @@
+/* Fonts */
+
+/* Gilda Display */
+@font-face {
+	font-family: 'Gilda Display';
+	font-display: swap;
+	src: local(''),
+			url('/public/fonts/GildaDisplay-Regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+			url('/public/fonts/GildaDisplay-Regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* Spectral */
+@font-face {
+	font-family: 'Spectral';
+	font-display: swap;
+	src: local(''),
+			url('/public/fonts/Spectral-Regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+			url('/public/fonts/Spectral-Regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #ffeac54d;
+}
+
+
+.primary-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+
+    top: 0;
+    z-index: 1000;
+    transition: background 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+}
+
+.primary-header.scrolled {
+    background: #cccccc80; /* Solid background on scroll */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Stronger shadow on scroll */
+}
+
+.flex {
+    display: flex;
+    gap: var(--gap, 1rem);
+}
+
+.navbar-signature {
+    margin: 2rem;
+}
+
+.navbar-signature img {
+    width: clamp(5rem, 10vw, 7rem);
+    height: auto;
+}
+
+.mobile-nav-toggle {
+    display: none;
+}
+
+.navbar { 
+    list-style: none;
+    padding: 0;
+    margin: 0;
+} 
+
+.navbar a {
+    font-family: 'Spectral', serif; 
+    text-decoration: none;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;   
+}
+
+.image-container {
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    padding: 0;
+    margin: 0;
+}
+
+.profile-picture {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+    
+}
+
+.name {
+    font-family: 'Gilda Display', serif;
+    font-weight: 500;
+}
+
+/* Swiper Base Styles - Applies to all screens */
+
+.mySwiper {
+    background-color: #e8e8e8;
+    margin-bottom: 20%;
+}
+
+.swiper {
+    width: 95%;
+    height: 50%;
+    position: relative;
+}
+
+.swiper-wrapper {
+    display: flex;
+    flex-direction: row; /* Ensures slides are stacked vertically */
+}
+
+.swiper-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 30px;
+}
+
+/* Navigation Buttons - Base Style */
+.swiper-button-prev, .swiper-button-next {
+    display: block !important;
+    color: #000;
+    z-index: 10;
+    transition: all 0.3s ease;
+    font-weight: 700;
+    top: 45%; /* Center vertically */
+    transform: translateY(-50%); /* Adjust to middle of swiper */
+}
+
+.swiper-button-next.swiper-button-disabled, .swiper-button-prev.swiper-button-disabled {
+    opacity: 0;
+}
+
+/* Offset buttons from center */
+.swiper-button-prev {
+    left: 10%; /* Position slightly inside the container */
+    margin-left: -10px; /* Bring closer to the image */
+}
+
+
+.swiper-button-next {
+    right: 10%; /* Position slightly inside the container */
+    margin-right: -10px; /* Bring closer to the image */
+}
+
+
+/* Mobile */
+@media only screen and (max-width: 767px) {
+
+    .primary-header {
+        margin-bottom: 5vh;
+    }
+
+    .gallery-link {
+        pointer-events: none;
+    }
+
+    .navbar {
+        --gap:2em;
+
+        background: hsl(0 0% 0% / 0.65);
+        -webkit-backdrop-filter: blur(1rem);
+        backdrop-filter: blur(1rem);
+        position: fixed;
+        z-index: 1000;
+        inset: 0 0 0 50%;
+
+        flex-direction: column;
+        padding: min(30vh, 30rem) 2.2em;
+
+        transform: translateX(100%);
+        transition: transform 350ms ease-out;
+    }
+    
+    .navbar[data-visible="true"] {
+        height: 100vh;
+        transform: translateX(0%);
+    }
+
+    .navbar a{
+        color: white;
+    }
+
+    .mobile-nav-toggle {
+        font-family: 'Spectral', serif;
+        font-size: clamp(0.5rem, 10vw, 0.8rem);
+        font-weight: 500;
+        color: black;
+    
+        background-color: hsl(0 0% 80% / 0.4);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(255, 255, 255, 0.2);
+        
+        display: block;
+        position: absolute;
+        z-index: 9999;
+    
+        border: 0;
+        width: clamp(5rem, 10vw, 7rem);
+        height: 2rem;
+        aspect-ratio: 1;
+        top: 2.4rem;
+        right: 1.8rem;
+    
+        align-self: center;
+        text-align: center;
+        border-radius: 16px;
+        background-size: cover;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+
+    .mobile-nav-toggle[aria-expanded="true"] {
+        background-image: url("/public/images/close-icon.svg");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        color: transparent;
+        background-color: transparent;
+        box-shadow: none;
+    
+        right: 0em;
+    }
+
+
+    .nav-link {
+        background-repeat: no-repeat;
+        background-size: 16px 16px;
+        background-position: left center;
+        padding-left: clamp(1.5rem, 9vw + .5rem, 7rem);
+    }
+
+    .home-icon {
+        background-image: url('/public/images/home-icon.svg');
+        
+    }
+
+    .gallery-icon {
+        background-image: url('/public/images/gallery-icon.svg');
+       
+    }
+
+    .contact-icon {
+        background-image: url('/public/images/contact-icon.svg');
+        
+    }
+
+    .image-container{
+        width: clamp(224px, 70vw, 300px);
+        margin-inline: auto;
+        margin-top: clamp(.7rem, 20vh + .05rem, 1rem);
+        top: 0;
+        pointer-events: none;
+    }
+ 
+    .main-button {
+        background-color: hsl(0 0% 80% / 0.4);
+        
+        display: block;
+        position: absolute;
+        z-index: 999;
+        
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(255, 255, 255, 0.2);
+    
+        align-self: center;
+        text-align: center;
+        border-radius: 16px;
+        border: 0;
+        background-size: cover;
+
+        margin-top: clamp(5rem, 40vh + .05rem, 6rem);
+        width: clamp(7rem, 10vw, 10rem);
+        height: clamp(2rem, 10vw, 2.2rem);
+        top: 50%;
+    }
+
+    .main-button a {
+        font-family: 'Spectral', serif;
+        text-decoration: none;
+        color: black;
+        font-size: clamp(0.5rem, 10vw, 0.9rem);
+        font-weight: 700;
+    }
+
+    .name {
+        font-size: clamp(2rem, 10vw, 30rem);
+        margin-top: 25vh;
+        margin-bottom: clamp(2rem, 20vh, 4rem);
+        position: absolute;
+        bottom: 0;
+    }
+
+ 
+}
+
+@media only screen and (min-width: 768px) {
+
+    .gallery-link {
+        display: block; /* Make it a block-level element so it wraps around the image */
+    }
+
+    .primary-header {
+        padding-inline: clamp(3rem, 10vw, 10rem);
+
+        background: hsl(0 0% 80% / 0.20);
+        backdrop-filter: blur(5rem);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-signature {
+        margin-left: 2rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .navbar {
+        --gap: clamp(1.5rem, 5vw, 3rem);
+        padding-block: 1rem;
+        padding-inline-end: clamp(2rem, 8vw, 3rem);
+        transform: none;
+    }
+
+    .mobile-nav-toggle {
+        transition: none;
+    }
+
+    .navbar a {
+        color: black;
+    }
+
+    .image-container{
+        width: 350px;
+        margin-top: clamp(2rem, 10vh + .05rem, 4rem);
+        position: absolute;
+        top: 20%;
+    }
+
+    .name {
+        font-size: clamp(2rem, 10vw, 9rem);
+        margin-top: 3rem; 
+        position: absolute;
+        bottom: 0;
+        margin-bottom: clamp(4rem, 20vh, 8rem);
+    }
+
+    .main-button {
+        display: none;
+    } 
+}
+
+
+/* Laptop */
+@media only screen and (min-width: 1024px) {
+    .primary-header {
+        position: sticky;
+    }
+    .image-container {
+        cursor: pointer;
+        transition: transform 250ms cubic-bezier(0.97, 0.26, 0.17, 0.86);
+        position: absolute;
+        top: 12%;
+    }
+    .image-container:hover {
+        transform: scale(1.05);
+    }
+
+    .name {
+        position: absolute;
+        margin-bottom: 1rem;
+    }
+}
+
+
+/* Navbar link hover effect for devices with a cursor */
+@media (hover: hover) {
+    .navbar a {
+        position: relative;
+        display: inline-block;
+        letter-spacing: 0; /* Normal spacing */
+        transition: letter-spacing 0.3s cubic-bezier(0.69, 0.23, 0.16, 0.38), color 0.3s cubic-bezier(0.69, 0.23, 0.16, 0.38);
+    }
+
+    .navbar a::after {
+        content: "";
+        position: absolute;
+        bottom: -3px; /* Adjust as needed */
+        left: 0;
+        right: 0;
+        height: 2px; /* Thickness of underline */
+        background-color: currentColor;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s cubic-bezier(0.69, 0.23, 0.16, 0.38)
+    }
+
+    .navbar a:hover {
+        color: #333; /* Optional color change on hover */
+        letter-spacing: 2px; /* Increased spacing between letters */
+    }
+
+    .navbar a:hover::after {
+        transform: scaleX(1); /* Makes the underline visible */
+    }
+}
+
+
+

@@ -1,0 +1,457 @@
+*, *::after, *::before {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+}
+
+h2 {
+    font-family: 'Spectral';
+    font-weight: 500;
+    font-size: clamp(3rem, 20vw, 3rem);
+}
+
+p {
+    font-family: 'Spectral';
+    color: #333;
+}
+
+/* Full-Screen Title Section */
+.full-screen-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+    text-align: center;
+    padding: 0 20px;
+    margin-top: 5%;
+    margin-bottom: 15%;
+    flex-direction: column; /* Stack words vertically */
+    position: relative;
+}
+
+/* Styling for the title */
+.full-screen-title h1 {
+    font-family: 'Gilda Display', serif;
+    font-size: clamp(5rem, 20vw, 7rem);
+    font-weight: 200;
+    color: #333;
+    margin: 0; /* Remove default margin */
+}
+
+.full-screen-title h2 {
+    font-family: 'Gilda Display', serif;
+    font-size: clamp(3rem, 20vw, 5rem);
+    font-weight: 200;
+    color: #333;
+    margin: 0; /* Remove default margin */
+}
+
+/* Each word will fade in slowly */
+.word {
+    display: block;
+    opacity: 0; /* Start with the word invisible */
+    animation: fadeIn 1s forwards; /* Apply fade-in animation */
+}
+
+/* Delay each word's fade-in */
+.word:nth-child(1) {
+    animation-delay: 0.5s; /* First word fades in after 0.5s */
+}
+
+.word:nth-child(2) {
+    animation-delay: 1s; /* Second word fades in after 2s */
+}
+
+.word:nth-child(3) {
+    animation-delay: 1.5s; /* Third word fades in after 3.5s */
+}
+
+/* Keyframe for fade-in effect */
+@keyframes fadeIn {
+    to {
+        opacity: 1; /* Make the word fully visible */
+    }
+}
+
+/* Initially hide the gallery */
+.gallery-container.hidden {
+    opacity: 0; /* Make it invisible */
+    pointer-events: none; /* Prevent interaction while hidden */
+
+}
+
+/* Fade-in effect when the gallery is revealed */
+.gallery-container.fade-in {
+    opacity: 1; /* Make it visible */
+    pointer-events: auto; /* Enable interaction once visible */
+    transition: opacity 2s cubic-bezier(0.98, 0.2, 0.22, 0.95); /* Smooth fade-in transition */
+}
+
+.swiper.hidden {
+    opacity: 0;
+    pointer-events: none;
+
+}
+
+.swiper.fade-in {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 2s cubic-bezier(0.98, 0.2, 0.22, 0.95); 
+}
+
+:root {
+    --swiper-theme-color: black;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Modal Content */
+.modal-content {
+    position: relative;
+    width: 90vw; /* Width relative to the viewport width */
+    height: 90vh; /* Height relative to the viewport height */
+    max-width: 100%; /* Prevents overflow */
+    max-height: 100%; /* Prevents overflow */
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-image-container {
+    overflow: hidden;
+}
+
+/* Image inside the modal */
+.modal-image {
+    width: 100%;
+    height: auto;
+    max-width: 100%; /* Ensures the image doesn't stretch beyond its container */
+    max-height: 80vh; /* Limits height to 80% of the viewport height */
+    object-fit: contain; /* Ensures the image keeps its aspect ratio intact */
+}
+
+/* Button Styling */
+.modal-close, .modal-nav-left, .modal-nav-right {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 1em;
+    border-radius: 50%;
+    width: 5em;
+    height: 5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.2s ease;
+}
+
+
+/* Close Button (SVG) */
+.modal-close {
+    position: absolute;
+    top: 0; /* Adjust based on viewport width */
+    right: 2vw; /* Adjust based on viewport width */
+}
+
+/* Left Navigation Button */
+.modal-nav-left,
+.modal-nav-right {
+    position: absolute;
+    top: 45%;
+}
+
+/* Left Navigation Button */
+.modal-nav-left {
+    left: 2vw; /* Adjust based on viewport width */
+}
+
+/* Right Navigation Button */
+.modal-nav-right {
+    right: 2vw; /* Adjust based on viewport width */
+}
+
+/* Hover effect on Navigation Buttons background */
+.modal-nav-left:hover,
+.modal-nav-right:hover,
+.modal-close:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Active (click) effect */
+.modal-close:active, .modal-nav-left:active, .modal-nav-right:active {
+    transform: scale(0.9);
+}
+
+/* Make SVGs white */
+.modal-close svg,
+.modal-nav-left svg,
+.modal-nav-right svg {
+    fill: currentColor; /* Ensures the SVG takes color from the 'color' property */
+    color: white; /* This makes the SVG color white */
+}
+
+
+/* Target all images with data-modal="true" */
+[data-modal="true"] {
+    cursor: pointer; /* Change cursor to pointer on hover */
+    transition: transform 250ms cubic-bezier(0.97, 0.26, 0.17, 0.86); /* Add smooth scale transition */
+}
+
+/* Scale the image on hover */
+[data-modal="true"]:hover {
+    transform: scale(1.05); /* Slightly grow the image */
+}
+
+.modal-overlay {
+    display: none; /* Ensure the modal is hidden initially */
+}
+.modal-overlay[hidden] {
+    display: none; /* Ensures hidden attribute works */
+}
+
+.modal-image {
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0;
+}
+.modal-image[src] {
+    opacity: 1;
+}
+
+/* Vertical Carousel */
+#vertical-carousel .swiper-slide img {
+    width: clamp(200px, 50vw, 300px);
+    height: auto;
+    object-fit: cover;
+}
+
+/* Horizontal Carousel */
+#horizontal-carousel .swiper-slide img {
+    width: clamp(250px, 70vw, 500px);
+    height: auto;
+    object-fit: cover;
+}
+
+/* Square Carousel */
+#square-carousel .swiper-slide img {
+    width: clamp(200px, 50vw, 300px);
+    height: clamp(200px, 50vw, 300px);
+    object-fit: contain;
+}
+
+/* Style for Painting Info (Title and Dimensions) */
+.painting-info {
+    text-align: center;
+    margin-top: 1rem; /* Add some spacing between image and text */
+    color: #333;
+}
+
+.painting-info h3 {
+    font-size: clamp(1.2rem, 30vw, 1.7rem);
+    margin: 0;
+    font-weight: bold;
+}
+
+.painting-info p {
+    font-size: clamp(0.9rem, 30vw, 1.1rem);
+    margin: 0;
+    margin-top: 0.3rem;
+}
+
+
+@media screen and (min-width: 1024px) {
+    
+    .swiper {
+        display: none;
+    }
+    .full-screen-title {
+        flex-direction: row; /* Arrange words on one line */
+        justify-content: center; /* Center words horizontally */
+        height: 20vh;
+        margin-top: 12%;
+        margin-bottom: 7%;
+    }
+
+    .full-screen-title h1 {
+        font-size: clamp(5rem, 12vw, 10rem);
+    }
+
+    .word {
+        display: inline-block; /* Display words inline on larger screens */
+        margin-right: 2rem; /* Add some space between words */
+    }
+
+    .word:nth-child(3) {
+        margin-right: 0; /* Remove margin for the last word */
+    }
+
+        /* Spacing below the navbar */
+    .gallery-container {
+        display: flex;
+        flex-direction: column;
+        gap: 100px; /* Space between rows */
+        padding: 20px;
+        max-width: 1200px;
+        margin: 40px auto; /* Larger margin-top to position container lower from navbar */
+    }
+
+    /* General styling for gallery items */
+    .gallery {
+        display: grid;
+        grid-auto-flow: column;
+        align-items: center;
+        padding-inline: 10%;
+        padding-block: 3%;
+        background-color: #e8e8e8;
+        
+        text-align: center; /* Center-align text */
+    }
+
+    /* Layout for Left/Right Image Positioning with Equal Space */
+    .left, .right {
+        grid-template-columns: 1fr 1fr; /* Two equal columns */
+    }
+
+    /* Image on Left */
+    .left img {
+        grid-column: 1;
+        margin-right: 20px;
+    }
+    .left .text-container {
+        grid-column: 2;
+    }
+
+    /* Image on Right */
+    .right img {
+        grid-column: 2;
+        margin-left: 20px;
+    }
+    .right .text-container {
+        grid-column: 1;
+    }
+
+    /* Square Layout with Text Below Each Image */
+    .square.middle {
+        grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+        justify-items: center;
+    }
+
+    .square_img {
+        max-width: 300px;
+        height: auto;
+        object-fit: cover;
+        grid-row: 1; /* Ensure image stays in the first row */
+    }
+
+    .square .text-container {
+        grid-row: 2; /* Place text directly below the image */
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    /* Image styling for different orientations */
+    .vertical_img {
+        max-width: 300px;
+        height: auto;
+    }
+
+    .horizontal_img {
+        max-width: 550px;
+        height: auto;
+    }
+
+    /* Additional styling */
+    .gallery img {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    }
+
+
+
+}
+
+/* Mobile */
+/* Hide elements for mobile view */
+@media only screen and (max-width: 1023px) {
+    .gallery-container, .footer {
+        display: none;
+        visibility: hidden;
+        position: absolute;
+    }
+    .primary-header{
+        margin-bottom: 5%;
+    }
+
+}
+
+/* Media Query for Mobile Screens */
+@media (max-width: 600px) {
+    .swiper-button-prev, .swiper-button-next {
+        --swiper-navigation-size: 20px; /* Smaller icon size */
+    }
+    .swiper-button-prev {
+        left: 7%; 
+
+    }
+    .swiper-button-next {
+        right: 7%; 
+    }
+    
+}
+@media only screen and (max-width: 764px) {
+    .modal-image {
+        height: auto;
+        width: clamp(200px, 60vw, 500px);
+        max-height: 60vh; /* Limits height to 80% of the viewport height */
+        object-fit: contain; /* Ensures the image keeps its aspect ratio intact */
+    }
+
+    .modal-nav-left {
+        left: 0;
+    }
+    .modal-nav-right {
+        right: 0;   
+    }
+    .modal-nav-left:hover,
+    .modal-nav-right:hover,
+    .modal-close:hover {
+        background-color: none;
+    }
+}
+
+/* Media Query for Laptops */
+@media (min-width: 601px) and (max-width: 1200px) {
+
+    .swiper-button-prev, .swiper-button-next {
+        --swiper-navigation-size: 30px; /* Larger icon size */
+    }
+
+    .swiper-button-prev {
+        left: 8%; /* Keep button closer on larger screens */
+        margin-left: -15px;
+    }
+
+    .swiper-button-next {
+        right: 8%;
+        margin-right: -15px;
+    }
+
+}
+
+
