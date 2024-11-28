@@ -235,6 +235,10 @@ p {
     opacity: 1;
 }
 
+.swiper-slide img {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
 /* Vertical Carousel */
 #vertical-carousel .swiper-slide img {
     width: clamp(200px, 50vw, 300px);
