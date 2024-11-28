@@ -5,8 +5,8 @@
 	font-family: 'Gilda Display';
 	font-display: swap;
 	src: local(''),
-			url('/public/fonts/GildaDisplay-Regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-			url('/public/fonts/GildaDisplay-Regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+			url('../fonts/GildaDisplay-Regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+			url('..public/fonts/GildaDisplay-Regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
 /* Spectral */
@@ -14,8 +14,8 @@
 	font-family: 'Spectral';
 	font-display: swap;
 	src: local(''),
-			url('/public/fonts/Spectral-Regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-			url('/public/fonts/Spectral-Regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+			url('../fonts/Spectral-Regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+			url('../fonts/Spectral-Regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
 
@@ -219,7 +219,7 @@ body {
 
 
     .mobile-nav-toggle[aria-expanded="true"] {
-        background-image: url("/public/images/close-icon.svg");
+        background-image: url("../images/close-icon.svg");
         background-repeat: no-repeat;
         background-position: center;
         background-size: contain;
@@ -239,17 +239,17 @@ body {
     }
 
     .home-icon {
-        background-image: url('/public/images/home-icon.svg');
+        background-image: url('../images/home-icon.svg');
         
     }
 
     .gallery-icon {
-        background-image: url('/public/images/gallery-icon.svg');
+        background-image: url('../images/gallery-icon.svg');
        
     }
 
     .contact-icon {
-        background-image: url('/public/images/contact-icon.svg');
+        background-image: url('../images/contact-icon.svg');
         
     }
 
