@@ -291,7 +291,14 @@
     opacity: 1;
 }
 
-
+@media (hover: none) {
+    .modal-nav-left:hover,
+    .modal-nav-right:hover,
+    .modal-close:hover {
+      background: none;
+      transform: none;
+    }
+}
 
 /* Responsive layout adjustments */
 @media (min-width: 1024px) {

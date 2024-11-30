@@ -193,7 +193,7 @@ body {
     .mobile-nav-toggle {
         font-family: 'Spectral', serif;
         font-size: clamp(0.5rem, 10vw, 0.8rem);
-        font-weight: 500;
+        font-weight: 700;
         color: black;
     
         background-color: hsl(0 0% 80% / 0.4);
