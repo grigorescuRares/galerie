@@ -256,8 +256,8 @@ p {
 /* Square Carousel */
 #square-carousel .swiper-slide img {
     width: clamp(200px, 50vw, 300px);
-    height: clamp(200px, 50vw, 300px);
-    object-fit: contain;
+    height: auto;
+    object-fit: cover;
 }
 
 /* Style for Painting Info (Title and Dimensions) */
