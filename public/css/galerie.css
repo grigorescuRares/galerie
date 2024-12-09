@@ -119,12 +119,12 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    z-index: 99999;
 }
 
 /* Modal Content */
 .modal-content {
-    position: relative;
+    position: fixed;
     width: 90vw; /* Width relative to the viewport width */
     height: 90vh; /* Height relative to the viewport height */
     max-width: 100%; /* Prevents overflow */
@@ -208,6 +208,12 @@ p {
     color: white; /* This makes the SVG color white */
 }
 
+/* Hide buttons visually and prevent interactions when hidden */
+.modal-nav-left[hidden],
+.modal-nav-right[hidden] {
+    display: none;
+    pointer-events: none; /* Prevent mouse interaction */
+}
 
 /* Target all images with data-modal="true" */
 [data-modal="true"] {
@@ -293,6 +299,7 @@ p {
     .swiper {
         display: none;
     }
+    
     .full-screen-title {
         flex-direction: row; /* Arrange words on one line */
         justify-content: center; /* Center words horizontally */
@@ -410,10 +417,22 @@ p {
         margin-bottom: 5%;
     }
 
+    .modal-nav-left {
+        left: 0;
+    }
+
+    .modal-nav-right {
+        right: 0;
+    }
+
+    .modal-image {
+        width: 550px;
+    }
+    
 }
 
 /* Media Query for Mobile Screens */
-@media (max-width: 600px) {
+@media only screen and (max-width: 600px) {
     .swiper-button-prev, .swiper-button-next {
         --swiper-navigation-size: 20px; /* Smaller icon size */
     }
@@ -425,25 +444,41 @@ p {
         right: 7%; 
     }
     
+    .modal-close {
+        right: -5%;
+    }
+
 }
-@media only screen and (max-width: 764px) {
+@media only screen and (max-width: 767px) {
     .modal-image {
         height: auto;
-        width: clamp(200px, 60vw, 500px);
-        max-height: 60vh; /* Limits height to 80% of the viewport height */
-        object-fit: contain; /* Ensures the image keeps its aspect ratio intact */
+        width: clamp(300px, 80vw, 500px);
+        max-height: 70vh; 
+        object-fit: contain; 
     }
 
     .modal-nav-left {
-        left: 0;
+        display: none;
     }
     .modal-nav-right {
-        right: 0;   
+        display: none;
     }
     .modal-nav-left:hover,
     .modal-nav-right:hover,
     .modal-close:hover {
         background-color: none;
+    }
+
+    .primary-header{
+        margin-bottom: 5%;
+    }
+
+    .full-screen-title {
+        margin-top: 0;
+    }
+
+    .modal-close {
+        right: -4%;
     }
 }
 

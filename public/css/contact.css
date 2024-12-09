@@ -175,7 +175,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    z-index: 99999;
 }
 
 /* Modal Content */
@@ -264,6 +264,12 @@
     color: white; /* This makes the SVG color white */
 }
 
+/* Hide buttons visually and prevent interactions when hidden */
+.modal-nav-left[hidden],
+.modal-nav-right[hidden] {
+    display: none;
+    pointer-events: none; /* Prevent mouse interaction */
+}
 
 /* Target all images with data-modal="true" */
 [data-modal="true"] {
@@ -301,7 +307,7 @@
 }
 
 /* Responsive layout adjustments */
-@media (min-width: 1024px) {
+@media only screen and (min-width: 1024px) {
     .contact-container {
         flex-wrap: nowrap; /* Prevent wrapping on larger screens */
     }
@@ -309,7 +315,7 @@
 
 }
 
-@media (min-width: 768px) and (max-width: 1023px) {
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
     .contact-container {
         flex-wrap: wrap; /* Allow two cards per row */
     }
@@ -336,9 +342,13 @@
         display: block;
     }
 
+    .modal-image {
+        width: 550px;
+    }
+
 }
 
-@media (max-width: 767px) {
+@media only screen and (max-width: 767px) {
     .contact-container {
         flex-wrap: wrap; /* Stack cards vertically */
     }
@@ -356,17 +366,22 @@
 
     .modal-image {
         height: auto;
-        width: clamp(200px, 60vw, 500px);
-        max-height: 60vh; /* Limits height to 80% of the viewport height */
-        object-fit: contain; /* Ensures the image keeps its aspect ratio intact */
+        width: clamp(300px, 80vw, 500px);
+        max-height: 70vh; 
+        object-fit: contain; 
     }
 
     .modal-nav-left {
-        left: 0;
+        display: none;
     }
     .modal-nav-right {
-        right: 0;   
+        display: none;   
     }
+
+    .modal-close {
+        right: -4%;
+    }
+
     .modal-nav-left:hover,
     .modal-nav-right:hover,
     .modal-close:hover {
@@ -376,6 +391,10 @@
     .gallery-title span {
         display: block;
     }
+}
 
-
+@media only screen and (max-width: 600px) {
+        .modal-close {
+            right: -5%;
+        }
 }

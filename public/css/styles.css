@@ -25,6 +25,10 @@ body {
     background: #ffeac54d;
 }
 
+body.modal-open .mobile-nav-toggle {
+    pointer-events: none; /* This makes the menu button not clickable */
+    opacity: 0.5; /* Optional: to visually show the button is disabled */
+}
 
 .primary-header {
     display: flex;
