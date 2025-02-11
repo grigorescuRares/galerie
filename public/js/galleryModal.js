@@ -101,7 +101,7 @@ export function initModal() {
 
     // Close modal when clicking outside the image 
     modalOverlay.addEventListener('click', (e) => {
-        if (e.target === modalOverlay) {
+        if (!modalImage.contains(e.target)) {
             closeModal();
         }
     });
@@ -147,8 +147,29 @@ export function initModal() {
     let isZoomed = false;
     modalImage.style.cursor = 'zoom-in';
 
-    // Double-click or tap to zoom logic
+    // Double-click or tap to zoom logic (with double-tap detection)
+    let lastTapTime = 0; // Track the time of the last tap for zoom-out behavior
+
+    // For Mobile: Detect double-tap using touch events
+    let lastTouchTime = 0; // Track the last touch time for mobile
+    modalImage.addEventListener('touchstart', (e) => {
+        const currentTime = Date.now();
+        const timeDiff = currentTime - lastTouchTime;
+
+        if (e.touches.length === 1) {
+            if (timeDiff < 300) { // Double tap detected
+                handleZoom(e);
+            }
+            lastTouchTime = currentTime;
+        }
+    });
+
+    // For Desktop: Handle double-click using dblclick
     modalImage.addEventListener('dblclick', (e) => {
+        handleZoom(e);
+    });
+
+    function handleZoom(e) {
         const bounds = modalImage.getBoundingClientRect();
         const x = e.clientX - bounds.left;
         const y = e.clientY - bounds.top;
@@ -164,7 +185,7 @@ export function initModal() {
             modalImage.style.transform = 'scale(1)';
             isZoomed = false;
         }
-    });
+    }
 
     // When zoomed in, move the image with the cursor position (desktop)
     modalImage.addEventListener('mousemove', (e) => {
@@ -177,7 +198,6 @@ export function initModal() {
     });
 
     // Pinch-to-zoom behavior for mobile (using touch events)
-    // Mobile pinch-to-zoom behavior
     let touchStartDistance = 0;
     let initialScale = 1;  // Keeps track of the initial scale before zooming
 
@@ -199,7 +219,12 @@ export function initModal() {
             );
             const scale = (touchMoveDistance / touchStartDistance) * initialScale; // Apply scaling based on pinch movement
             modalImage.style.transform = `scale(${scale})`;
-            isZoomed = true;
+
+            // Update transform origin to track finger movement during zoom
+            const bounds = modalImage.getBoundingClientRect();
+            const x = e.touches[0].clientX - bounds.left;
+            const y = e.touches[0].clientY - bounds.top;
+            modalImage.style.transformOrigin = `${(x / bounds.width) * 100}% ${(y / bounds.height) * 100}%`;
         }
     });
 

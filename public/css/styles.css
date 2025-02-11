@@ -263,7 +263,7 @@ body.modal-open .mobile-nav-toggle {
         width: clamp(224px, 70vw, 300px);
         margin-inline: auto;
         /* margin-top: clamp(.7rem, 20vh + .05rem, 1rem)*/
-        margin-top: 12vh;
+        margin-top: 7vh;
         pointer-events: none;
     }
  
@@ -282,7 +282,7 @@ body.modal-open .mobile-nav-toggle {
         border: 0;
         background-size: cover;
 
-        margin-top: 5vh;/* margin-top: clamp(5rem, 40vh + .05rem, 6rem)*/
+        margin-top: 7vh;/* margin-top: clamp(5rem, 40vh + .05rem, 6rem)*/
         /* margin-bottom: 2rem; */
 
         width: clamp(7rem, 10vw, 10rem);
@@ -317,9 +317,9 @@ body.modal-open .mobile-nav-toggle {
 
     .primary-header {
         padding-inline: clamp(3rem, 10vw, 10rem);
-        background: hsl(0 0% 80% / 0.23);
+        background: hsl(0 0% 80% / 0.30);
         backdrop-filter: blur(5rem);
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.17);
     }
 
     .navbar-signature {
