@@ -150,6 +150,9 @@ export function initModal() {
     // Timing for double-tap detection on mobile
     let lastTapTime = 0;  // Track the time of the last tap
 
+    // Disable browser zoom behavior
+    document.body.style.touchAction = 'none';  // Disable pinch zoom on the page
+
     // Mobile Double-Tap Detection
     modalImage.addEventListener('touchstart', (e) => {
         const currentTime = Date.now();
@@ -235,6 +238,7 @@ export function initModal() {
             isZoomed = false;
         }
     });
+
 
 
 
