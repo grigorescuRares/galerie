@@ -351,6 +351,7 @@ body.modal-open .mobile-nav-toggle {
 
     .name {
         font-size: clamp(2rem, 10vw, 9rem);
+        color: #222;
         margin-top: 15%; /*margin-top: 3rem;*/
         position: relative;
         /*margin-bottom: clamp(4rem, 20vh, 8rem);*/

@@ -8,7 +8,7 @@
 .contact-title {
     font-family: 'Gilda Display', serif;
     font-size: clamp(3rem, 20vw, 7rem);
-    color: black;
+    color: #222;
     font-weight: 400;
 
     text-align: center;
