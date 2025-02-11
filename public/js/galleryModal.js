@@ -143,15 +143,16 @@ export function initModal() {
         showNextImage();
     });
 
+    // Check if the device is mobile or desktop
+    const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
     // Mobile and desktop zoom logic
     let isZoomed = false;
     modalImage.style.cursor = 'zoom-in';
 
-    // Check if the device is a desktop (non-touch)
-    const isDesktop = !('ontouchstart' in window || navigator.maxTouchPoints > 0);
-
-    // Double-click to zoom in (desktop only)
-    if (isDesktop) {
+    // Handle zoom behavior only on desktop
+    if (!isMobile) {
+        // Double-click to zoom in (only on desktop)
         modalImage.addEventListener('dblclick', (e) => {
             const bounds = modalImage.getBoundingClientRect();
             const x = e.clientX - bounds.left;
@@ -166,7 +167,7 @@ export function initModal() {
             }
         });
 
-        // Single click to zoom out (desktop only)
+        // Single-click to zoom out (only on desktop)
         modalImage.addEventListener('click', () => {
             if (isZoomed) {
                 modalImage.style.cursor = 'zoom-in';
@@ -174,10 +175,8 @@ export function initModal() {
                 isZoomed = false;
             }
         });
-    }
 
-    // When zoomed in, move the image with the cursor position (desktop)
-    if (isDesktop) {
+        // When zoomed in, move the image with the cursor position (only on desktop)
         modalImage.addEventListener('mousemove', (e) => {
             if (isZoomed) {
                 const bounds = modalImage.getBoundingClientRect();
@@ -185,19 +184,6 @@ export function initModal() {
                 const y = e.clientY - bounds.top;
                 modalImage.style.transformOrigin = `${(x / bounds.width) * 100}% ${(y / bounds.height) * 100}%`;
             }
-        });
-    }
-
-    // Prevent pinch-to-zoom behavior for mobile devices
-    if (!isDesktop) {
-        modalImage.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // Disable pinch-to-zoom
-        });
-        modalImage.addEventListener('touchmove', (e) => {
-            e.preventDefault(); // Disable pinch-to-zoom
-        });
-        modalImage.addEventListener('touchend', (e) => {
-            e.preventDefault(); // Disable pinch-to-zoom
         });
     }
 
