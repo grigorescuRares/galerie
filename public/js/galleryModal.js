@@ -147,24 +147,24 @@ export function initModal() {
     let isZoomed = false;
     modalImage.style.cursor = 'zoom-in';
 
-    // Double-click or tap to zoom logic (with double-tap detection)
-    let lastTapTime = 0; // Track the time of the last tap for zoom-out behavior
+    // Timing for double-tap detection on mobile
+    let lastTapTime = 0;  // Track the time of the last tap
 
-    // For Mobile: Detect double-tap using touch events
-    let lastTouchTime = 0; // Track the last touch time for mobile
+    // Mobile Double-Tap Detection
     modalImage.addEventListener('touchstart', (e) => {
         const currentTime = Date.now();
-        const timeDiff = currentTime - lastTouchTime;
+        const timeDiff = currentTime - lastTapTime;
 
-        if (e.touches.length === 1) {
-            if (timeDiff < 300) { // Double tap detected
-                handleZoom(e);
-            }
-            lastTouchTime = currentTime;
+        // Only handle double tap if there is exactly 1 touch point
+        if (e.touches.length === 1 && timeDiff < 300) {
+            // Trigger zoom on double-tap
+            handleZoom(e);
         }
+
+        lastTapTime = currentTime;
     });
 
-    // For Desktop: Handle double-click using dblclick
+    // Desktop Double-Click Handling
     modalImage.addEventListener('dblclick', (e) => {
         handleZoom(e);
     });
@@ -187,12 +187,12 @@ export function initModal() {
         }
     }
 
-    // When zoomed in, move the image with the cursor position (desktop)
-    modalImage.addEventListener('mousemove', (e) => {
-        if (isZoomed) {
+    // Track finger movement while zoomed (mobile)
+    modalImage.addEventListener('touchmove', (e) => {
+        if (isZoomed && e.touches.length === 1) {
             const bounds = modalImage.getBoundingClientRect();
-            const x = e.clientX - bounds.left;
-            const y = e.clientY - bounds.top;
+            const x = e.touches[0].clientX - bounds.left;
+            const y = e.touches[0].clientY - bounds.top;
             modalImage.style.transformOrigin = `${(x / bounds.width) * 100}% ${(y / bounds.height) * 100}%`;
         }
     });
@@ -235,6 +235,7 @@ export function initModal() {
             isZoomed = false;
         }
     });
+
 
 
     // Initialize listeners
