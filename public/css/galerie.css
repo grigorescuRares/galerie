@@ -271,22 +271,15 @@ p {
         visibility: hidden;
         position: absolute;
     }
-    .primary-header{
-        margin-bottom: 5%;
-    }
-
     .modal-nav-left {
         left: 0;
     }
-
     .modal-nav-right {
         right: 0;
     }
-
     .modal-image {
         width: 550px;
-    }
-    
+    }   
 }
 
 /* Media Query for Mobile Screens */
@@ -301,12 +294,11 @@ p {
     .swiper-button-next {
         right: 7%; 
     }
-    
     .modal-close {
         right: -5%;
     }
-
 }
+
 @media only screen and (max-width: 767px) {
     .modal-image {
         height: auto;
@@ -314,7 +306,6 @@ p {
         max-height: 70vh; 
         object-fit: contain; 
     }
-
     .modal-nav-left {
         display: none;
     }
@@ -328,7 +319,6 @@ p {
     }
 
     .full-screen-title {
-        margin-top: 3%;
         margin-bottom: 50%;
     }
 

@@ -147,39 +147,59 @@ export function initModal() {
     let isZoomed = false;
     modalImage.style.cursor = 'zoom-in';
 
-    // Double-click to zoom in, single click to zoom out (desktop)
-    modalImage.addEventListener('dblclick', (e) => {
-        const bounds = modalImage.getBoundingClientRect();
-        const x = e.clientX - bounds.left;
-        const y = e.clientY - bounds.top;
+    // Check if the device is a desktop (non-touch)
+    const isDesktop = !('ontouchstart' in window || navigator.maxTouchPoints > 0);
 
-        if (!isZoomed) {
-            modalImage.style.cursor = 'zoom-out';
-            modalImage.style.transition = 'transform 0.3s ease-in-out';
-            modalImage.style.transform = 'scale(1.35)';
-            modalImage.style.transformOrigin = `${(x / bounds.width) * 100}% ${(y / bounds.height) * 100}%`;
-            isZoomed = true;
-        }
-    });
-
-    modalImage.addEventListener('click', (e) => {
-        if (isZoomed) {
-            modalImage.style.cursor = 'zoom-in';
-            modalImage.style.transform = 'scale(1)';
-            isZoomed = false;
-        }
-    });
-
-    // When zoomed in, move the image with the cursor position (desktop)
-    modalImage.addEventListener('mousemove', (e) => {
-        if (isZoomed) {
+    // Double-click to zoom in (desktop only)
+    if (isDesktop) {
+        modalImage.addEventListener('dblclick', (e) => {
             const bounds = modalImage.getBoundingClientRect();
             const x = e.clientX - bounds.left;
             const y = e.clientY - bounds.top;
-            modalImage.style.transformOrigin = `${(x / bounds.width) * 100}% ${(y / bounds.height) * 100}%`;
-        }
-    });
 
+            if (!isZoomed) {
+                modalImage.style.cursor = 'zoom-out';
+                modalImage.style.transition = 'transform 0.3s ease-in-out';
+                modalImage.style.transform = 'scale(1.35)';
+                modalImage.style.transformOrigin = `${(x / bounds.width) * 100}% ${(y / bounds.height) * 100}%`;
+                isZoomed = true;
+            }
+        });
+
+        // Single click to zoom out (desktop only)
+        modalImage.addEventListener('click', () => {
+            if (isZoomed) {
+                modalImage.style.cursor = 'zoom-in';
+                modalImage.style.transform = 'scale(1)';
+                isZoomed = false;
+            }
+        });
+    }
+
+    // When zoomed in, move the image with the cursor position (desktop)
+    if (isDesktop) {
+        modalImage.addEventListener('mousemove', (e) => {
+            if (isZoomed) {
+                const bounds = modalImage.getBoundingClientRect();
+                const x = e.clientX - bounds.left;
+                const y = e.clientY - bounds.top;
+                modalImage.style.transformOrigin = `${(x / bounds.width) * 100}% ${(y / bounds.height) * 100}%`;
+            }
+        });
+    }
+
+    // Prevent pinch-to-zoom behavior for mobile devices
+    if (!isDesktop) {
+        modalImage.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Disable pinch-to-zoom
+        });
+        modalImage.addEventListener('touchmove', (e) => {
+            e.preventDefault(); // Disable pinch-to-zoom
+        });
+        modalImage.addEventListener('touchend', (e) => {
+            e.preventDefault(); // Disable pinch-to-zoom
+        });
+    }
 
     // Initialize listeners
     attachModalListeners();
