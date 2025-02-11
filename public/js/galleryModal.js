@@ -1,5 +1,5 @@
 export function initModal() {
-    // Add modal HTML to the body dynamically
+    // Add modal HTML to the body dynamically 
     if (!document.querySelector('.modal-overlay')) {
         document.body.insertAdjacentHTML('beforeend', `
             <div class="modal-overlay" hidden>
@@ -40,53 +40,51 @@ export function initModal() {
     let currentGallery = null;
     let currentIndex = 0;
 
-    // Open modal and display image
+    // Open modal and display image (with high-quality image load)
     function openModal(index, gallery) {
         currentGallery = gallery;
         modalEnabledImages = document.querySelectorAll(`[data-modal="true"][data-device="${gallery}"]`);
         currentIndex = index;
-        modalImage.src = modalEnabledImages[index].src;
+
+        // Assuming high-quality images have a `data-highres` attribute containing the high-resolution image URL
+        const highResSrc = modalEnabledImages[index].getAttribute('data-highres');
+        modalImage.src = highResSrc || modalEnabledImages[index].src; // Fallback to the regular src if no high-res version exists
+
         modalOverlay.hidden = false;
         modalOverlay.style.display = "flex";
         
         // Disable body scroll
         document.body.style.overflow = 'hidden';
-
-        // Add 'modal-open' class to body to disable menu button interaction
         document.body.classList.add('modal-open');
 
         updateNavButtons();
     }
 
-    // Close modal function
+    // Close modal function 
     function closeModal() {
         modalOverlay.hidden = true;
         modalOverlay.style.display = "none";
         currentGallery = null;
-
-        // Re-enable body scroll
         document.body.style.overflow = '';
-
-        // Remove 'modal-open' class to restore menu button interaction
         document.body.classList.remove('modal-open');
     }
 
-    // Update navigation button visibility
+    // Update navigation buttons visibility 
     function updateNavButtons() {
         if (currentIndex === 0) {
-            modalNavLeft.setAttribute('hidden', true); // Disable left button
+            modalNavLeft.setAttribute('hidden', true);
         } else {
-            modalNavLeft.removeAttribute('hidden'); // Enable left button
+            modalNavLeft.removeAttribute('hidden');
         }
 
         if (currentIndex === modalEnabledImages.length - 1) {
-            modalNavRight.setAttribute('hidden', true); // Disable right button
+            modalNavRight.setAttribute('hidden', true);
         } else {
-            modalNavRight.removeAttribute('hidden'); // Enable right button
+            modalNavRight.removeAttribute('hidden');
         }
     }
 
-    // Attach event listeners to modal-enabled images
+    // Attach event listeners to modal-enabled images 
     function attachModalListeners() {
         document.querySelectorAll('[data-modal="true"]').forEach((img, index) => {
             const gallery = img.getAttribute('data-device');
@@ -98,17 +96,17 @@ export function initModal() {
         });
     }
 
-    // Close modal on close button click
+    // Close modal on close button click 
     modalClose.addEventListener('click', closeModal);
 
-    // Close modal when clicking outside the image
+    // Close modal when clicking outside the image 
     modalOverlay.addEventListener('click', (e) => {
         if (e.target === modalOverlay) {
             closeModal();
         }
     });
 
-    // Close modal with Escape key
+    // Close modal with Escape key 
     window.addEventListener('keydown', (e) => {
         if (modalOverlay.hidden) return;
         if (e.key === 'Escape') closeModal();
@@ -116,23 +114,25 @@ export function initModal() {
         if (e.key === 'ArrowLeft' && !modalNavLeft.hidden) showPreviousImage();
     });
 
-    // Show next image within the same gallery
+    // Show next image within the same gallery 
     function showNextImage() {
         if (!currentGallery || currentIndex === modalEnabledImages.length - 1) return;
         currentIndex++;
-        modalImage.src = modalEnabledImages[currentIndex].src;
+        const highResSrc = modalEnabledImages[currentIndex].getAttribute('data-highres');
+        modalImage.src = highResSrc || modalEnabledImages[currentIndex].src; // Load high-res or fallback to normal
         updateNavButtons();
     }
 
-    // Show previous image within the same gallery
+    // Show previous image within the same gallery 
     function showPreviousImage() {
         if (!currentGallery || currentIndex === 0) return;
         currentIndex--;
-        modalImage.src = modalEnabledImages[currentIndex].src;
+        const highResSrc = modalEnabledImages[currentIndex].getAttribute('data-highres');
+        modalImage.src = highResSrc || modalEnabledImages[currentIndex].src; // Load high-res or fallback to normal
         updateNavButtons();
     }
 
-    // Navigation button event listeners
+    // Navigation button event listeners 
     modalNavLeft.addEventListener('click', (e) => {
         e.stopPropagation();
         showPreviousImage();
@@ -143,10 +143,11 @@ export function initModal() {
         showNextImage();
     });
 
-    // Your zoom-in/out logic
+    // Mobile and desktop zoom logic
     let isZoomed = false;
     modalImage.style.cursor = 'zoom-in';
 
+    // Double-click or tap to zoom logic
     modalImage.addEventListener('dblclick', (e) => {
         const bounds = modalImage.getBoundingClientRect();
         const x = e.clientX - bounds.left;
@@ -165,18 +166,51 @@ export function initModal() {
         }
     });
 
-    // When zoomed in, move the image with the cursor position
+    // When zoomed in, move the image with the cursor position (desktop)
     modalImage.addEventListener('mousemove', (e) => {
         if (isZoomed) {
-            // Get the mouse position relative to the image
             const bounds = modalImage.getBoundingClientRect();
             const x = e.clientX - bounds.left;
             const y = e.clientY - bounds.top;
-            
-            // Adjust transform-origin to follow the cursor
             modalImage.style.transformOrigin = `${(x / bounds.width) * 100}% ${(y / bounds.height) * 100}%`;
         }
     });
+
+    // Pinch-to-zoom behavior for mobile (using touch events)
+    // Mobile pinch-to-zoom behavior
+    let touchStartDistance = 0;
+    let initialScale = 1;  // Keeps track of the initial scale before zooming
+
+    modalImage.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 2) {
+            touchStartDistance = Math.hypot(
+                e.touches[0].clientX - e.touches[1].clientX,
+                e.touches[0].clientY - e.touches[1].clientY
+            );
+            initialScale = parseFloat(modalImage.style.transform.replace('scale(', '').replace(')', '')) || 1;
+        }
+    });
+
+    modalImage.addEventListener('touchmove', (e) => {
+        if (e.touches.length === 2) {
+            const touchMoveDistance = Math.hypot(
+                e.touches[0].clientX - e.touches[1].clientX,
+                e.touches[0].clientY - e.touches[1].clientY
+            );
+            const scale = (touchMoveDistance / touchStartDistance) * initialScale; // Apply scaling based on pinch movement
+            modalImage.style.transform = `scale(${scale})`;
+            isZoomed = true;
+        }
+    });
+
+    modalImage.addEventListener('touchend', () => {
+        if (isZoomed) {
+            modalImage.style.transition = 'transform 0.3s ease-in-out';
+            modalImage.style.transform = 'scale(1)';
+            isZoomed = false;
+        }
+    });
+
 
     // Initialize listeners
     attachModalListeners();

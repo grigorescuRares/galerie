@@ -6,7 +6,7 @@
 	font-display: swap;
 	src: local(''),
 			url('../fonts/GildaDisplay-Regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-			url('..public/fonts/GildaDisplay-Regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+			url('../fonts/GildaDisplay-Regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
 /* Spectral */
@@ -22,7 +22,7 @@
 body {
     margin: 0;
     padding: 0;
-    background: #ffeac54d;
+    background: #FFEAC573; /*#ffeac54d;*/
 }
 
 body.modal-open .mobile-nav-toggle {
@@ -91,13 +91,13 @@ body.modal-open .mobile-nav-toggle {
 
 .profile-picture {
     width: 100%;
+    max-width: 100%;
     height: auto;
     object-fit: cover;
     display: block;
-    
 }
 
-.name {
+.name  {
     font-family: 'Gilda Display', serif;
     font-weight: 500;
 }
@@ -161,7 +161,7 @@ body.modal-open .mobile-nav-toggle {
 @media only screen and (max-width: 767px) {
 
     .primary-header {
-        margin-bottom: 5vh;
+        margin-bottom: 0;
     }
 
     .gallery-link {
@@ -230,6 +230,7 @@ body.modal-open .mobile-nav-toggle {
         color: transparent;
         background-color: transparent;
         box-shadow: none;
+        position: fixed;
     
         right: 0em;
     }
@@ -258,18 +259,19 @@ body.modal-open .mobile-nav-toggle {
     }
 
     .image-container{
+        position: relative;
         width: clamp(224px, 70vw, 300px);
         margin-inline: auto;
-        margin-top: clamp(.7rem, 20vh + .05rem, 1rem);
-        top: 0;
+        /* margin-top: clamp(.7rem, 20vh + .05rem, 1rem)*/
+        margin-top: 12vh;
         pointer-events: none;
     }
  
     .main-button {
         background-color: hsl(0 0% 80% / 0.4);
         
-        display: block;
-        position: absolute;
+        display: inline-block;
+        position: relative;
         z-index: 999;
         
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(255, 255, 255, 0.2);
@@ -280,10 +282,12 @@ body.modal-open .mobile-nav-toggle {
         border: 0;
         background-size: cover;
 
-        margin-top: clamp(5rem, 40vh + .05rem, 6rem);
+        margin-top: 5vh;/* margin-top: clamp(5rem, 40vh + .05rem, 6rem)*/
+        /* margin-bottom: 2rem; */
+
         width: clamp(7rem, 10vw, 10rem);
         height: clamp(2rem, 10vw, 2.2rem);
-        top: 50%;
+        top: 45%;
     }
 
     .main-button a {
@@ -296,10 +300,10 @@ body.modal-open .mobile-nav-toggle {
 
     .name {
         font-size: clamp(2rem, 10vw, 30rem);
-        margin-top: 25vh;
-        margin-bottom: clamp(2rem, 20vh, 4rem);
-        position: absolute;
-        bottom: 0;
+        margin-top: 15%; /* margin-top: 25vh*/
+        /* margin-bottom: clamp(2rem, 20vh, 4rem)*/
+        position: relative;
+        text-align: center;
     }
 
  
@@ -313,10 +317,9 @@ body.modal-open .mobile-nav-toggle {
 
     .primary-header {
         padding-inline: clamp(3rem, 10vw, 10rem);
-
-        background: hsl(0 0% 80% / 0.20);
+        background: hsl(0 0% 80% / 0.23);
         backdrop-filter: blur(5rem);
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
     }
 
     .navbar-signature {
@@ -342,17 +345,15 @@ body.modal-open .mobile-nav-toggle {
 
     .image-container{
         width: 350px;
-        margin-top: clamp(2rem, 10vh + .05rem, 4rem);
-        position: absolute;
-        top: 20%;
+        margin-top: 20vh; /* margin-top: clamp(2rem, 10vh + .05rem, 4rem);*/
+        position: relative;
     }
 
     .name {
         font-size: clamp(2rem, 10vw, 9rem);
-        margin-top: 3rem; 
-        position: absolute;
-        bottom: 0;
-        margin-bottom: clamp(4rem, 20vh, 8rem);
+        margin-top: 15%; /*margin-top: 3rem;*/
+        position: relative;
+        /*margin-bottom: clamp(4rem, 20vh, 8rem);*/
     }
 
     .main-button {
@@ -369,16 +370,16 @@ body.modal-open .mobile-nav-toggle {
     .image-container {
         cursor: pointer;
         transition: transform 250ms cubic-bezier(0.97, 0.26, 0.17, 0.86);
-        position: absolute;
-        top: 12%;
+        position: relative;
+        margin-top: 5%; /*top: 12%;*/
     }
     .image-container:hover {
         transform: scale(1.05);
     }
 
     .name {
-        position: absolute;
-        margin-bottom: 1rem;
+        position: relative;
+        margin-top: 3%; /*margin-bottom: 1rem;*/
     }
 }
 
@@ -415,5 +416,137 @@ body.modal-open .mobile-nav-toggle {
     }
 }
 
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+}
 
+/* Modal Content */
+.modal-content {
+    position: relative;
+    width: 90vw; /* Width relative to the viewport width */
+    height: 90vh; /* Height relative to the viewport height */
+    max-width: 100%; /* Prevents overflow */
+    max-height: 100%; /* Prevents overflow */
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-image-container {
+    overflow: hidden;
+    position: relative;
+}
+
+/* Image inside the modal */
+.modal-image {
+    width: 100%;
+    height: auto;
+    max-width: 100%; /* Ensures the image doesn't stretch beyond its container */
+    max-height: 80vh; /* Limits height to 80% of the viewport height */
+    object-fit: contain; /* Ensures the image keeps its aspect ratio intact */
+}
+
+/* Button Styling */
+.modal-close, .modal-nav-left, .modal-nav-right {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 1em;
+    border-radius: 50%;
+    width: 5em;
+    height: 5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.2s ease;
+}
+
+
+/* Close Button (SVG) */
+.modal-close {
+    position: absolute;
+    top: 0; /* Adjust based on viewport width */
+    right: 2vw; /* Adjust based on viewport width */
+}
+
+/* Left Navigation Button */
+.modal-nav-left,
+.modal-nav-right {
+    position: absolute;
+    top: 45%;
+}
+
+/* Left Navigation Button */
+.modal-nav-left {
+    left: 2vw; /* Adjust based on viewport width */
+}
+
+/* Right Navigation Button */
+.modal-nav-right {
+    right: 2vw; /* Adjust based on viewport width */
+}
+
+/* Hover effect on Navigation Buttons background */
+.modal-nav-left:hover,
+.modal-nav-right:hover,
+.modal-close:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Active (click) effect */
+.modal-close:active, .modal-nav-left:active, .modal-nav-right:active {
+    transform: scale(0.9);
+}
+
+/* Make SVGs white */
+.modal-close svg,
+.modal-nav-left svg,
+.modal-nav-right svg {
+    fill: currentColor; /* Ensures the SVG takes color from the 'color' property */
+    color: white; /* This makes the SVG color white */
+}
+
+/* Hide buttons visually and prevent interactions when hidden */
+.modal-nav-left[hidden],
+.modal-nav-right[hidden] {
+    display: none;
+    pointer-events: none; /* Prevent mouse interaction */
+}
+
+/* Target all images with data-modal="true" */
+[data-modal="true"] {
+    cursor: pointer; /* Change cursor to pointer on hover */
+    transition: transform 250ms cubic-bezier(0.97, 0.26, 0.17, 0.86); /* Add smooth scale transition */
+}
+
+/* Scale the image on hover */
+[data-modal="true"]:hover {
+    transform: scale(1.05); /* Slightly grow the image */
+}
+
+.modal-overlay {
+    display: none; /* Ensure the modal is hidden initially */
+}
+.modal-overlay[hidden] {
+    display: none; /* Ensures hidden attribute works */
+}
+
+.modal-image {
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0;
+}
+.modal-image[src] {
+    opacity: 1;
+}
 

@@ -4,10 +4,6 @@
     
 }
 
-.primary-header {
-    margin-bottom: 5%;
-}
-
 /* Contact Title */
 .contact-title {
     font-family: 'Gilda Display', serif;
@@ -17,10 +13,7 @@
 
     text-align: center;
     margin-bottom: 2rem;
-    margin-top: 0;
 }
-
-
 
 .contact-cards {
     display: flex;
@@ -83,17 +76,16 @@
     font-family: 'Spectral', serif;
     font-size: 1.25rem; /* Match heading size */
     font-weight: bold;
-    color: black;
-    text-decoration: underline; /* Add underline */
+    color: black; 
     background-color: transparent; /* Remove button-like appearance */
     padding: 0; /* Remove padding */
     border-radius: 0; /* Remove rounded edges */
     margin-top: 0.5rem; /* Keep some spacing */
+    text-decoration: none; 
 }
 
 .contact-link:hover, .email:hover {
     color: #333; /* Slightly darker shade on hover */
-    text-decoration: none; /* Remove underline on hover for subtle effect */
 }
 
 .mySwiper {
@@ -124,7 +116,7 @@
 .gallery-title {
     font-family: 'Gilda Display', serif;
     font-size: clamp(.5rem, 10vw, 3rem);
-    font-weight: 400;
+    font-weight: 500;
     margin-bottom: 1rem;
     white-space: nowrap;
     text-align: center;
@@ -162,139 +154,6 @@
 
 .swiper-button-prev, .swiper-button-next {
     top: 50%;
-}
-
-/* Modal Overlay */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 99999;
-}
-
-/* Modal Content */
-.modal-content {
-    position: relative;
-    width: 90vw; /* Width relative to the viewport width */
-    height: 90vh; /* Height relative to the viewport height */
-    max-width: 100%; /* Prevents overflow */
-    max-height: 100%; /* Prevents overflow */
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-image-container {
-    overflow: hidden;
-}
-
-/* Image inside the modal */
-.modal-image {
-    width: 100%;
-    height: auto;
-    max-width: 100%; /* Ensures the image doesn't stretch beyond its container */
-    max-height: 80vh; /* Limits height to 80% of the viewport height */
-    object-fit: contain; /* Ensures the image keeps its aspect ratio intact */
-}
-
-/* Button Styling */
-.modal-close, .modal-nav-left, .modal-nav-right {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 1em;
-    border-radius: 50%;
-    width: 5em;
-    height: 5em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s, transform 0.2s ease;
-}
-
-
-/* Close Button (SVG) */
-.modal-close {
-    position: absolute;
-    top: 0; /* Adjust based on viewport width */
-    right: 2vw; /* Adjust based on viewport width */
-}
-
-/* Left Navigation Button */
-.modal-nav-left,
-.modal-nav-right {
-    position: absolute;
-    top: 45%;
-}
-
-/* Left Navigation Button */
-.modal-nav-left {
-    left: 2vw; /* Adjust based on viewport width */
-}
-
-/* Right Navigation Button */
-.modal-nav-right {
-    right: 2vw; /* Adjust based on viewport width */
-}
-
-/* Hover effect on Navigation Buttons background */
-.modal-nav-left:hover,
-.modal-nav-right:hover,
-.modal-close:hover {
-    background-color: rgba(0, 0, 0, 0.3);
-}
-
-/* Active (click) effect */
-.modal-close:active, .modal-nav-left:active, .modal-nav-right:active {
-    transform: scale(0.9);
-}
-
-/* Make SVGs white */
-.modal-close svg,
-.modal-nav-left svg,
-.modal-nav-right svg {
-    fill: currentColor; /* Ensures the SVG takes color from the 'color' property */
-    color: white; /* This makes the SVG color white */
-}
-
-/* Hide buttons visually and prevent interactions when hidden */
-.modal-nav-left[hidden],
-.modal-nav-right[hidden] {
-    display: none;
-    pointer-events: none; /* Prevent mouse interaction */
-}
-
-/* Target all images with data-modal="true" */
-[data-modal="true"] {
-    cursor: pointer; /* Change cursor to pointer on hover */
-    transition: transform 250ms cubic-bezier(0.97, 0.26, 0.17, 0.86); /* Add smooth scale transition */
-}
-
-/* Scale the image on hover */
-[data-modal="true"]:hover {
-    transform: scale(1.05); /* Slightly grow the image */
-}
-
-.modal-overlay {
-    display: none; /* Ensure the modal is hidden initially */
-}
-.modal-overlay[hidden] {
-    display: none; /* Ensures hidden attribute works */
-}
-
-.modal-image {
-    transition: opacity 0.5s ease-in-out;
-    opacity: 0;
-}
-.modal-image[src] {
-    opacity: 1;
 }
 
 @media (hover: none) {
@@ -390,6 +249,10 @@
 
     .gallery-title span {
         display: block;
+    }
+
+    .contact-title {
+        margin-top: 20%;
     }
 }
 
