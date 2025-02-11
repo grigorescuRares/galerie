@@ -40,6 +40,18 @@ export function initModal() {
     let currentGallery = null;
     let currentIndex = 0;
 
+    // To allow scrolling when modal is closed
+    function toggleBodyScroll(isModalOpen) {
+        if (isModalOpen) {
+            document.body.style.overflow = 'hidden'; // Disable body scrolling when modal is open
+        } else {
+            document.body.style.overflow = ''; // Re-enable body scrolling when modal is closed
+        }
+    }
+    
+    // Call toggleBodyScroll(true) when opening the modal
+    // Call toggleBodyScroll(false) when closing the modal
+
     // Open modal and display image (with high-quality image load)
     function openModal(index, gallery) {
         currentGallery = gallery;
@@ -58,6 +70,7 @@ export function initModal() {
         document.body.classList.add('modal-open');
 
         updateNavButtons();
+        toggleBodyScroll(true);
     }
 
     // Close modal function 
@@ -67,6 +80,7 @@ export function initModal() {
         currentGallery = null;
         document.body.style.overflow = '';
         document.body.classList.remove('modal-open');
+        toggleBodyScroll(false);
     }
 
     // Update navigation buttons visibility 
@@ -143,33 +157,29 @@ export function initModal() {
         showNextImage();
     });
 
-    // Mobile and desktop zoom logic
+    // Ensure the modalImage is zoomable on mobile
     let isZoomed = false;
     modalImage.style.cursor = 'zoom-in';
 
-    // Fix for mobile scroll and zoom (Only disable pinch zoom on image, not the whole page)
-    modalImage.style.touchAction = 'none';  // Prevent pinch zoom only on the image
-
-    // Double tap zoom logic (mobile)
-    let lastTapTime = 0; // Track last tap time for double tap detection
-
+    // Double tap (mobile) & double-click (desktop) zoom logic
+    let lastTapTime = 0;  // To detect double-taps
     modalImage.addEventListener('touchstart', (e) => {
         const currentTime = Date.now();
         const timeDiff = currentTime - lastTapTime;
-
-        // Detect double-tap on mobile (single touch)
+        
+        // Detect double tap on mobile (single touch)
         if (e.touches.length === 1 && timeDiff < 300) {
             handleZoom(e);
         }
         lastTapTime = currentTime;
     });
 
-    // Desktop double-click handling (zoom)
+    // For desktop double-click zoom handling
     modalImage.addEventListener('dblclick', (e) => {
         handleZoom(e);
     });
 
-    // Shared zoom function for both double-click and double-tap
+    // Shared zoom logic for both mobile and desktop
     function handleZoom(e) {
         const bounds = modalImage.getBoundingClientRect();
         const x = e.clientX - bounds.left;
@@ -188,20 +198,9 @@ export function initModal() {
         }
     }
 
-    // Desktop mouse tracking (move image with cursor when zoomed)
-    modalImage.addEventListener('mousemove', (e) => {
-        if (isZoomed) {
-            const bounds = modalImage.getBoundingClientRect();
-            const x = e.clientX - bounds.left;
-            const y = e.clientY - bounds.top;
-            modalImage.style.transformOrigin = `${(x / bounds.width) * 100}% ${(y / bounds.height) * 100}%`;
-            modalImage.style.transform = `scale(1.35)`;  // Keep it zoomed
-        }
-    });
-
-    // Pinch-to-zoom for mobile (touch events)
+    // Pinch-to-zoom on mobile (only affect the image)
     let touchStartDistance = 0;
-    let initialScale = 1;  // Keeps track of the initial scale before zooming
+    let initialScale = 1;
 
     modalImage.addEventListener('touchstart', (e) => {
         if (e.touches.length === 2) {
@@ -219,10 +218,10 @@ export function initModal() {
                 e.touches[0].clientX - e.touches[1].clientX,
                 e.touches[0].clientY - e.touches[1].clientY
             );
-            const scale = (touchMoveDistance / touchStartDistance) * initialScale; // Apply scaling based on pinch movement
+            const scale = (touchMoveDistance / touchStartDistance) * initialScale;
             modalImage.style.transform = `scale(${scale})`;
 
-            // Update transform origin to track pinch movement
+            // Track pinch movement to adjust transform origin
             const bounds = modalImage.getBoundingClientRect();
             const x = e.touches[0].clientX - bounds.left;
             const y = e.touches[0].clientY - bounds.top;
@@ -230,7 +229,7 @@ export function initModal() {
         }
     });
 
-    // End of pinch zoom (when you release fingers)
+    // Touch end behavior (reset zoom)
     modalImage.addEventListener('touchend', () => {
         if (isZoomed) {
             modalImage.style.transition = 'transform 0.3s ease-in-out';
@@ -239,14 +238,16 @@ export function initModal() {
         }
     });
 
-    // Allow page scroll when modal is not open (Add this function)
-    function toggleBodyScroll(isModalOpen) {
-        if (isModalOpen) {
-            document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
-        } else {
-            document.body.style.overflow = ''; // Allow scrolling when modal is closed
+    // Desktop mouse movement tracking (image move on zoom)
+    modalImage.addEventListener('mousemove', (e) => {
+        if (isZoomed) {
+            const bounds = modalImage.getBoundingClientRect();
+            const x = e.clientX - bounds.left;
+            const y = e.clientY - bounds.top;
+            modalImage.style.transformOrigin = `${(x / bounds.width) * 100}% ${(y / bounds.height) * 100}%`;
         }
-    }
+    });
+
 
     // Initialize listeners
     attachModalListeners();
