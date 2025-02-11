@@ -150,8 +150,8 @@ export function initModal() {
     // Timing for double-tap detection on mobile
     let lastTapTime = 0;  // Track the time of the last tap
 
-    // Disable browser zoom behavior
-    document.body.style.touchAction = 'none';  // Disable pinch zoom on the page
+    // Prevent browser zoom behavior, but only on the modal image
+    document.body.style.touchAction = 'none';  // Disable pinch zoom on the whole page
 
     // Mobile Double-Tap Detection
     modalImage.addEventListener('touchstart', (e) => {
@@ -231,6 +231,7 @@ export function initModal() {
         }
     });
 
+    // When pinch zoom ends
     modalImage.addEventListener('touchend', () => {
         if (isZoomed) {
             modalImage.style.transition = 'transform 0.3s ease-in-out';
@@ -238,6 +239,15 @@ export function initModal() {
             isZoomed = false;
         }
     });
+
+    // Fix page scroll behavior when modal is open
+    function toggleBodyScroll(isModalOpen) {
+        if (isModalOpen) {
+            document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+        } else {
+            document.body.style.overflow = ''; // Allow scrolling when modal is closed
+        }
+    }
 
 
 
